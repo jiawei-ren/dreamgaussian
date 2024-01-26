@@ -1,6 +1,13 @@
 import numpy as np
 import pymeshlab as pml
 
+if not hasattr(pml, "Percentage"):
+    # fix regression of pymeshlab
+    # https://github.com/cnr-isti-vclab/PyMeshLab/issues/347
+    print("Monkey patching pymeshlab")
+    pml.Percentage = pml.PercentageValue
+    pml.AbsoluteValue = pml.PureValue
+
 
 def poisson_mesh_reconstruction(points, normals=None):
     # points/normals: [N, 3] np.ndarray
